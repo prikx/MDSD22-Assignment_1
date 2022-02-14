@@ -14,10 +14,10 @@ public class Machine {
 	
 	
 	
-	public Machine(Collection<State> states, State initialState) {
-		super();
+	public Machine(Collection<State> states, State initialState, Map<String,Integer> integers) {
 		this.states.addAll(states);
 		this.initialState = initialState;
+		this.integers = integers;
 	}
 
 	public List<State> getStates() {
@@ -34,7 +34,7 @@ public class Machine {
 				return s;
 			}
 		}
-		return null; //Sketchy - implement error handling
+		return null;
 	}
 
 	public int numberOfIntegers() {
@@ -47,6 +47,12 @@ public class Machine {
 	
 	public int getInteger(String string) {
 		return integers.get(string);
+	}
+	
+	public void setInteger(String string, int i) {
+		if(hasInteger(string)) {
+			integers.replace(string, i);
+		}
 	}
 
 }
