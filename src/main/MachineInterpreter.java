@@ -21,11 +21,10 @@ public class MachineInterpreter {
 
 	public void processEvent(String event) {
 		currentState.getTransitionByEvent(event); // NOT FINISHED
-		
 	}
 
 	public int getInteger(String string) {
-		return 0;
+		return machine.getInteger(string);
 	}
 
 }

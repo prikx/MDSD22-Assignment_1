@@ -44,5 +44,9 @@ public class Machine {
 	public boolean hasInteger(String string) {
 		return integers.containsKey(string);
 	}
+	
+	public int getInteger(String string) {
+		return integers.get(string);
+	}
 
 }

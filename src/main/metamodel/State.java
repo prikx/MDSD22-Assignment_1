@@ -9,6 +9,10 @@ public class State {
 	public Object getName() {
 		return name;
 	}
+	
+	public State(String name) {
+		this.name = name;
+	}
 
 	public List<Transition> getTransitions() {
 		// TODO Auto-generated method stub

@@ -1,10 +1,14 @@
 package main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import main.metamodel.Machine;
 import main.metamodel.State;
 
 public class StateMachine {
 	
+	private Map<String, State> states = new HashMap<>();
 	private State currentState;
 	private State initialState;
 	
@@ -15,8 +19,8 @@ public class StateMachine {
 	}
 
 	public StateMachine state(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		states.put(string, new State(string));
+		return this;
 	}
 
 	public StateMachine initial() {
