@@ -1,8 +1,13 @@
 package main;
 
 import main.metamodel.Machine;
+import main.metamodel.State;
 
 public class StateMachine {
+	
+	private State currentState;
+	private State initialState;
+	
 
 	public Machine build() {
 		// TODO Auto-generated method stub
@@ -16,7 +21,7 @@ public class StateMachine {
 
 	public StateMachine initial() {
 		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	public StateMachine when(String string) {
