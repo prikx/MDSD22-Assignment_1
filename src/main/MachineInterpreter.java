@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 import main.metamodel.Machine;
 import main.metamodel.State;
 import main.metamodel.Transition;
@@ -19,49 +21,54 @@ public class MachineInterpreter {
 	}
 
 	public void processEvent(String event) {
-		
-		System.out.println(currentState.getName());
-		System.out.println(event);
-		
-		if (!(currentState.getTransitionByEvent(event) == null)) {
-			
-			Transition transition = currentState.getTransitionByEvent(event);
-			boolean condition = true;
+		if (currentState.getTransitionByEvent(event) == null) {
+			return;
+		}
 
-			if (transition.isConditional()) {
-				String condName = (String) transition.getConditionVariableName();
-				int compare = transition.getConditionComparedValue();
+		List<Transition> transitions = currentState.getTransitions();
 
-				if (transition.isConditionEqual()) {
-					condition = compare == machine.getInteger(condName);
+		for (Transition t : transitions) {
+			if (t.getEvent().equals(event)) {
+
+				Transition transition = t;
+				boolean condition = true;
+
+				if (transition.isConditional()) {
+					String condName = (String) transition.getConditionVariableName();
+					int compare = transition.getConditionComparedValue();
+
+					if (transition.isConditionEqual()) {
+						condition = compare == machine.getInteger(condName);
+					}
+
+					if (transition.isConditionGreaterThan()) {
+						condition = compare < machine.getInteger(condName);
+					}
+
+					if (transition.isConditionLessThan()) {
+						condition = compare > machine.getInteger(condName);
+					}
 				}
 
-				if (transition.isConditionGreaterThan()) {
-					condition = compare < machine.getInteger(condName);
+				if (transition.hasOperation() && condition) {
+					String opName = (String) transition.getOperationVariableName();
+					int opVal = transition.getOperationalValue();
+
+					if (transition.hasSetOperation()) {
+						machine.setInteger(opName, opVal);
+					}
+					if (transition.hasIncrementOperation()) {
+						machine.setInteger(opName, machine.getInteger(opName) + 1);
+					}
+					if (transition.hasDecrementOperation()) {
+						machine.setInteger(opName, machine.getInteger(opName) - 1);
+					}
 				}
 
-				if (transition.isConditionLessThan()) {
-					condition = compare > machine.getInteger(condName);
+				if (condition) {
+					currentState = transition.getTarget();
+					break;
 				}
-			}
-			
-			if (transition.hasOperation() && condition) {
-				String opName = (String) transition.getOperationVariableName();
-				int opVal = transition.getOperationalValue();
-
-				if (transition.hasSetOperation()) {
-					machine.setInteger(opName, opVal);
-				}
-				if (transition.hasIncrementOperation()) {
-					machine.setInteger(opName, machine.getInteger(opName) + 1);
-				}
-				if (transition.hasDecrementOperation()) {
-					machine.setInteger(opName, machine.getInteger(opName) - 1);
-				}
-			}
-			
-			if (condition) {
-				currentState = transition.getTarget();
 			}
 		}
 	}
