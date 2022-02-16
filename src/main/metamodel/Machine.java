@@ -11,10 +11,8 @@ public class Machine {
 	private List<State> states = new ArrayList<State>();
 	private State initialState;
 	private Map<String, Integer> integers = new HashMap<>();
-	
-	
-	
-	public Machine(Collection<State> states, State initialState, Map<String,Integer> integers) {
+
+	public Machine(Collection<State> states, State initialState, Map<String, Integer> integers) {
 		this.states.addAll(states);
 		this.initialState = initialState;
 		this.integers = integers;
@@ -29,7 +27,7 @@ public class Machine {
 	}
 
 	public State getState(String name) {
-		for(State s : states) {
+		for (State s : states) {
 			if (s.getName().equals(name)) {
 				return s;
 			}
@@ -44,13 +42,13 @@ public class Machine {
 	public boolean hasInteger(String string) {
 		return integers.containsKey(string);
 	}
-	
+
 	public int getInteger(String string) {
 		return integers.get(string);
 	}
-	
+
 	public void setInteger(String string, int i) {
-		if(hasInteger(string)) {
+		if (hasInteger(string)) {
 			integers.replace(string, i);
 		}
 	}

@@ -21,10 +21,6 @@ public class MachineInterpreter {
 	}
 
 	public void processEvent(String event) {
-		if (currentState.getTransitionByEvent(event) == null) {
-			return;
-		}
-
 		List<Transition> transitions = currentState.getTransitions();
 
 		for (Transition t : transitions) {
